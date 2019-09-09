@@ -53,17 +53,14 @@ post '/visit' do
 	@title = 'Thank you!'
 	@message = "Dear #{@username}, we'll be waiting for you at #{@datetime}"
 
-	hh = { :username => 'Введите имя', 
-		   :phone => 'Введите телефон',
-		   :datetime => 'Введите дату и время'}
+	hh = { :username => 'Введите имя',
+	       :phone => 'Введите телефон',
+	   	   :datetime => 'Введите дату и время' }
 
-	# для каждой пары ключ-значение		   
-	hh.each do |key, value|
-		if params[key] == ''
-			@error = hh[key]
-			return erb :visit
-		end
-
+	@error = hh.select {|key,_| params[key] == ""}.values.join(", ")
+	
+	if @error != ''
+		return erb :visit
 	end
 
 	f = File.open './public/users.txt', 'a'
