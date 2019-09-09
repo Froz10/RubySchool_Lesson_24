@@ -53,20 +53,17 @@ post '/visit' do
 	@title = 'Thank you!'
 	@message = "Dear #{@username}, we'll be waiting for you at #{@datetime}"
 
-	if @username == ''  
-		@error = "Введите имя"
-	end
+	hh = { :username => 'Введите имя', 
+		   :phone => 'Введите телефон',
+		   :datetime => 'Введите дату и время'}
 
-	if @phone == ''
-		@error = 'Введите номер телефона'
-	end
+	# для каждой пары ключ-значение		   
+	hh.each do |key, value|
+		if params[key] == ''
+			@error = hh[key]
+			return erb :visit
+		end
 
-	if @datetime == ''
-		@error = 'Неправильная дата и время'
-	end
-
-	if @error != ''
-		return erb :visit
 	end
 
 	f = File.open './public/users.txt', 'a'
