@@ -53,8 +53,19 @@ post '/visit' do
 	@title = 'Thank you!'
 	@message = "Dear #{@username}, we'll be waiting for you at #{@datetime}"
 
-	if @username == '' or @phone == '' or @datetime == '' or @person == '' or @color == ''
-		@error = "Please, puts all lines"
+	if @username == ''  
+		@error = "Введите имя"
+	end
+
+	if @phone == ''
+		@error = 'Введите номер телефона'
+	end
+
+	if @datetime == ''
+		@error = 'Неправильная дата и время'
+	end
+
+	if @error != ''
 		return erb :visit
 	end
 
