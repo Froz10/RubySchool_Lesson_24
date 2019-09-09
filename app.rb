@@ -12,6 +12,8 @@ post '/login' do
 
 	@login = params[:login]
 	@password = params[:password]
+	@title = 'Ha ha, nice try!'
+	@message = "Access denide"
 	
 
 	if @login == 'admin' && @password == 'secret'
@@ -50,6 +52,11 @@ post '/visit' do
 
 	@title = 'Thank you!'
 	@message = "Dear #{@username}, we'll be waiting for you at #{@datetime}"
+
+	if @username == '' or @phone == '' or @datetime == '' or @person == '' or @color == ''
+		@error = "Please, puts all lines"
+		return erb :visit
+	end
 
 	f = File.open './public/users.txt', 'a'
 	f.write "User: #{@username}, Phone: #{@phone}, Date and time: #{@datetime}, Person: #{@person}, #{@color}\n"
